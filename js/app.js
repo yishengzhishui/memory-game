@@ -28,8 +28,8 @@ function shuffle(array) {
 function cardPosition(array) {
   $(".match").removeClass("match");
   $(".open.show").removeClass("open show");
- for(let i = 0; i < array.length-1; i++) {
-   $(".deck").find("li").eq(i).children().attr("class", array[i])
+  for(let i = 0; i < array.length-1; i++) {
+    $(".deck").find("li").eq(i).children().attr("class", array[i])
  };
 };
 //重新开
@@ -54,6 +54,9 @@ let moveNum = 0;
 let showCard = function() {
   $(event.target).addClass("open show")
 };
+let closeCard = function() {
+  $(".open.show").removeClass("open show");
+};
 let pushArray = function(array) {
   array.push($(event.target).children().attr("class"));
 };
@@ -61,10 +64,10 @@ let judgeCard = function(array) {
   if (array.length === 2) {
     if (array[0] === array[1]) {
       $(".open.show").addClass("match");
-      $(".open.show").removeClass("open show");
+      closeCard();
       array.length = 0;
     } else {
-      $(".open.show").removeClass("open show");
+      closeCard();
       array.length = 0;
     };
   };
@@ -73,6 +76,8 @@ let judgeCard = function(array) {
 $("li").click(function(event) {
   showCard();
   pushArray(openTime);
+  console.log(openTime);
   moveNum++;
-  judgeCard(openTime);
+  setTimeout(function(){judgeCard(openTime)}, 1000); //setTimeout写法
+
 });
