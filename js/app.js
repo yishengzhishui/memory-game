@@ -1,8 +1,12 @@
 /*
- * 创建一个包含所有卡片的数组
+ * 创建一个包含所有卡片的数组 <i></i>
  */
+let cardAll = ["fa-diamon", "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb",
+              "fa-diamon", "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
 
-
+// $(".deck").find("li").each(function() {
+//   cardAll.push($(this).html());
+// });
 /*
  * 显示页面上的卡片
  *   - 使用下面提供的 "shuffle" 方法对数组中的卡片进行洗牌
@@ -36,3 +40,35 @@ function shuffle(array) {
  *    + 增加移动计数器并将其显示在页面上（将这个功能放在你从这个函数中调用的另一个函数中）
  *    + 如果所有卡都匹配，则显示带有最终分数的消息（将这个功能放在你从这个函数中调用的另一个函数中）
  */
+let openTime = []; //暂时性的地方，最多存两个数
+let openLast = [];
+let moveNum = 0;
+//点击一次翻看
+ $("li").click(function(event) {
+   $(event.target).addClass("open show")
+   openTime.push($(event.target).children().attr("class"));
+   moveNum++;
+  //  let nameClass = "";
+  //  nameClass = $(event.target).children().attr("class");
+  //  console.log(nameClass);//显示 元素的class
+  //  console.log($("[class=nameClass]").parent().html());
+  if (openTime.length === 2) {
+    if (openTime[0] === openTime[1]) {
+      openLast.push(openTime[0]);
+      openLast.push(openTime[1]);
+      $(".open.show").addClass("match");
+      $(".open.show").removeClass("open show")
+      openTime = [] ;
+    } else {
+      $(".open.show").removeClass("open show")
+      openTime = [];
+    };
+  };
+
+
+  // console.log(openTime);
+  // console.log(openLast);
+
+  //  console.log(moveNum);
+  //  console.log(openTime[1]);
+ });
