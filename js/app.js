@@ -59,26 +59,34 @@ let closeCard = function() {
 let pushArray = function(array) {
   array.push($(event.target).children().attr("class"));
 };
-let judgeCard = function(array) {
-  if (array.length === 2) {
-    if (array[0] === array[1]) {
+let judgeCard = function(openArray,matchArray) {
+  if (openArray.length === 2) {
+    if (openArray[0] === openArray[1]) {
       $(".open.show").addClass("match");
       closeCard();
-      array.length = 0;
+      matchArray.push(openArray[0]);
+      matchArray.push(openArray[1]);
+      openArray.length = 0;
     } else {
       closeCard();
-      array.length = 0;
+      openArray.length = 0;
     };
   };
 };
-let openTime = []; //暂时性的地方，最多存两个数
+let lastNew = function(array, num) {
+  if (array.length === 16) {
+    alert(`恭喜过关共用${num}步`)
+  }
+};
+let openCard = []; //暂时性的地方，最多存两个数
+let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
 //点击翻牌
 $("li").click(function(event) {
   showCard();
-  pushArray(openTime);
+  pushArray(openCard);
   moveNum++;
   $("span.moves").text(moveNum);
-  setTimeout(function(){judgeCard(openTime)}, 1000); //setTimeout写法
-
+  setTimeout(function(){judgeCard(openCard,matchCard)}, 1000); //setTimeout写法
+  setTimeout(function(){lastNew(matchCard,moveNum)},2000)
 });
