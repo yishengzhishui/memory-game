@@ -48,9 +48,8 @@ $(".restart").click(function() {
  *    + 增加移动计数器并将其显示在页面上（将这个功能放在你从这个函数中调用的另一个函数中）
  *    + 如果所有卡都匹配，则显示带有最终分数的消息（将这个功能放在你从这个函数中调用的另一个函数中）
  */
-let openTime = []; //暂时性的地方，最多存两个数
-let moveNum = 0;
-//点击一次翻看
+
+//函数
 let showCard = function() {
   $(event.target).addClass("open show")
 };
@@ -72,12 +71,14 @@ let judgeCard = function(array) {
     };
   };
 };
+let openTime = []; //暂时性的地方，最多存两个数
+let moveNum = 0;
 //点击翻牌
 $("li").click(function(event) {
   showCard();
   pushArray(openTime);
-  console.log(openTime);
   moveNum++;
+  $("span.moves").text(moveNum);
   setTimeout(function(){judgeCard(openTime)}, 1000); //setTimeout写法
 
 });
