@@ -1,8 +1,8 @@
 /*
  * 创建一个包含所有卡片的数组 <i></i>
  */
-let cardAll = ["fa-diamon", "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb",
-              "fa-diamon", "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
+let cardAll = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb",
+              "fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb"];
 
 // $(".deck").find("li").each(function() {
 //   cardAll.push($(this).html());
@@ -41,7 +41,6 @@ function shuffle(array) {
  *    + 如果所有卡都匹配，则显示带有最终分数的消息（将这个功能放在你从这个函数中调用的另一个函数中）
  */
 let openTime = []; //暂时性的地方，最多存两个数
-let openLast = [];
 let moveNum = 0;
 //点击一次翻看
  $("li").click(function(event) {
@@ -51,11 +50,9 @@ let moveNum = 0;
   //  let nameClass = "";
   //  nameClass = $(event.target).children().attr("class");
   //  console.log(nameClass);//显示 元素的class
-  //  console.log($("[class=nameClass]").parent().html());
+
   if (openTime.length === 2) {
     if (openTime[0] === openTime[1]) {
-      openLast.push(openTime[0]);
-      openLast.push(openTime[1]);
       $(".open.show").addClass("match");
       $(".open.show").removeClass("open show")
       openTime = [] ;
@@ -64,11 +61,15 @@ let moveNum = 0;
       openTime = [];
     };
   };
-
-
-  // console.log(openTime);
-  // console.log(openLast);
-
-  //  console.log(moveNum);
-  //  console.log(openTime[1]);
  });
+
+ //重新开
+ $(".restart").click(function() {
+   let newArray = shuffle(cardAll);
+   cardPosition(newArray);
+ });
+function cardPosition(array) {
+  for(let i = 0; i < array.length-1; i++) {
+    $(".deck").find("li").eq(i).children().attr("class", array[i])
+  };
+};
