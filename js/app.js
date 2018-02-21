@@ -12,7 +12,7 @@ let cardAll = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt
 
 // 洗牌函数来自于 http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -23,8 +23,20 @@ function shuffle(array) {
     }
 
     return array;
-}
-
+};
+//布置新的卡片顺序
+function cardPosition(array) {
+  $(".match").removeClass("match");
+  $(".open.show").removeClass("open show");
+ for(let i = 0; i < array.length-1; i++) {
+   $(".deck").find("li").eq(i).children().attr("class", array[i])
+ };
+};
+//重新开
+$(".restart").click(function() {
+  let newArray = shuffle(cardAll);
+  cardPosition(newArray);
+});
 
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
@@ -39,29 +51,28 @@ function shuffle(array) {
 let openTime = []; //暂时性的地方，最多存两个数
 let moveNum = 0;
 //点击一次翻看
-$("li").click(function(event) {
+let showCard = function() {
   $(event.target).addClass("open show")
-  openTime.push($(event.target).children().attr("class"));
-  moveNum++;
-  if (openTime.length === 2) {
-    if (openTime[0] === openTime[1]) {
+};
+let pushArray = function(array) {
+  array.push($(event.target).children().attr("class"));
+};
+let judgeCard = function(array) {
+  if (array.length === 2) {
+    if (array[0] === array[1]) {
       $(".open.show").addClass("match");
-      $(".open.show").removeClass("open show")
-      openTime = [] ;
+      $(".open.show").removeClass("open show");
+      array.length = 0;
     } else {
-      $(".open.show").removeClass("open show")
-      openTime = [];
+      $(".open.show").removeClass("open show");
+      array.length = 0;
     };
   };
-});
-
- //重新开
- $(".restart").click(function() {
-   let newArray = shuffle(cardAll);
-   cardPosition(newArray);
- });
-function cardPosition(array) {
-  for(let i = 0; i < array.length-1; i++) {
-    $(".deck").find("li").eq(i).children().attr("class", array[i])
-  };
 };
+//点击翻牌
+$("li").click(function(event) {
+  showCard();
+  pushArray(openTime);
+  moveNum++;
+  judgeCard(openTime);
+});
