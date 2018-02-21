@@ -73,9 +73,23 @@ let judgeCard = function(openArray,matchArray) {
     };
   };
 };
-let lastNew = function(array, num) {
+let starMoves = function(num) {
+  $("span.moves").text(num);
+  if (num > 20 && num <=30) {
+    $(".stars").find("li").eq(2).children().attr("class", "fa fa-star-o")
+  } else if (num > 30) {
+    $(".stars").find("li").eq(1).children().attr("class", "fa fa-star-o")
+  }
+};
+let lastNew = function(array,num) {
+  let star = 1;
+  if (num <= 20 ) {
+    star = 3;
+  } else if (num > 20 && num <=30) {
+    star = 2;
+  };
   if (array.length === 16) {
-    alert(`恭喜过关共用${num}步`)
+    alert(`恭喜过关共用${num}步，获得${star}颗星`)
   }
 };
 let openCard = []; //暂时性的地方，最多存两个数
@@ -86,7 +100,7 @@ $("li").click(function(event) {
   showCard();
   pushArray(openCard);
   moveNum++;
-  $("span.moves").text(moveNum);
+  starMoves(moveNum);
   setTimeout(function(){judgeCard(openCard,matchCard)}, 1000); //setTimeout写法
-  setTimeout(function(){lastNew(matchCard,moveNum)},2000)
+  setTimeout(function(){lastNew(matchCard,moveNum)},2000);
 });
