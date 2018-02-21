@@ -1,12 +1,8 @@
 /*
- * 创建一个包含所有卡片的数组 <i></i>
+ * 创建一个包含所有卡片的数组
  */
 let cardAll = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb",
               "fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb"];
-
-// $(".deck").find("li").each(function() {
-//   cardAll.push($(this).html());
-// });
 /*
  * 显示页面上的卡片
  *   - 使用下面提供的 "shuffle" 方法对数组中的卡片进行洗牌
@@ -43,14 +39,10 @@ function shuffle(array) {
 let openTime = []; //暂时性的地方，最多存两个数
 let moveNum = 0;
 //点击一次翻看
- $("li").click(function(event) {
-   $(event.target).addClass("open show")
-   openTime.push($(event.target).children().attr("class"));
-   moveNum++;
-  //  let nameClass = "";
-  //  nameClass = $(event.target).children().attr("class");
-  //  console.log(nameClass);//显示 元素的class
-
+$("li").click(function(event) {
+  $(event.target).addClass("open show")
+  openTime.push($(event.target).children().attr("class"));
+  moveNum++;
   if (openTime.length === 2) {
     if (openTime[0] === openTime[1]) {
       $(".open.show").addClass("match");
@@ -61,7 +53,7 @@ let moveNum = 0;
       openTime = [];
     };
   };
- });
+});
 
  //重新开
  $(".restart").click(function() {
