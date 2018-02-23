@@ -92,6 +92,9 @@ let lastNew = function(array,num) {
     alert(`恭喜过关共用${num}步，获得${star}颗星`)
   }
 };
+let disabledCard = function() {
+  $(".deck").toggleClass("disabled")
+};
 let openCard = []; //暂时性的地方，最多存两个数
 let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
@@ -101,6 +104,10 @@ $("li").click(function(event) {
   pushArray(openCard);
   moveNum++;
   starMoves(moveNum);
-  setTimeout(function(){judgeCard(openCard,matchCard)}, 1000); //setTimeout写法
+  disabledCard();
+  setTimeout(function(){judgeCard(openCard,matchCard)}, 800); //setTimeout写法
+  setTimeout(disabledCard,1200);
+
   setTimeout(function(){lastNew(matchCard,moveNum)},2000);
+
 });
