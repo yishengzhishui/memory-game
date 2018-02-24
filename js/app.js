@@ -67,6 +67,7 @@ let judgeCard = function(openArray,matchArray) {
       matchArray.push(openArray[1]);
       openArray.length = 0;
     } else {
+      $(".open.show").removeClass("disabled");//解除不准点击的锁定
       closeCard();
       openArray.length = 0;
     };
@@ -105,10 +106,13 @@ let timeRecord = function(num) {
 let timeOver = function() {
   clearTimeout(timef);
 };
-//暂停点击
-let disabledCard = function() {
-  $(".deck").toggleClass("disabled")
+//全局暂停点击
+let disabledCards = function() {
+  $(".deck").toggleClass("disabled");
 };
+let disabledCard = function() {
+  $(event.target).addClass("disabled");
+}
 //重启步数
 let moveRestart = function(num,openArray,matchArray) {
   openArray.length = 0;
@@ -136,11 +140,12 @@ $(".restart").click(function() {
 $("li").click(function(event) {
   showCard();
   pushArray(openCard);
+  disabledCard();//这样写没有问题吗？
   moveNum++;
   starMoves(moveNum);
-  disabledCard();
+  disabledCards();
   setTimeout(function(){judgeCard(openCard,matchCard)}, 800); //setTimeout写法
-  setTimeout(disabledCard,1200);
+  setTimeout(disabledCards,1200);
   setTimeout(function(){lastNew(matchCard,moveNum,timeNum)},2000);
 
 });
