@@ -1,8 +1,7 @@
 /*
  * 创建一个包含所有卡片的数组
  */
-let cardAll = ["fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb",
-              "fa fa-diamond", "fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb"];
+let cardAll = ["fa fa-diamond","fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb","fa fa-diamond","fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb"];
 /*
  * 显示页面上的卡片
  *   - 使用下面提供的 "shuffle" 方法对数组中的卡片进行洗牌
@@ -42,7 +41,7 @@ function shuffle(array) {
 function cardPosition(array) {
   $(".match").removeClass("match");
   $(".open.show").removeClass("open show");
-  for(let i = 0; i < array.length-1; i++) {
+  for(let i = 0; i < array.length; i++) {
     $(".deck").find("li").eq(i).children().attr("class", array[i])
  };
 };
@@ -83,7 +82,7 @@ let starMoves = function(num) {
   }
 };
 //闯关结束判断
-let lastNew = function(array,num) {
+let lastNew = function(array,num,time) {
   let star = 1;
   if (num <= 20 ) {
     star = 3;
@@ -91,7 +90,8 @@ let lastNew = function(array,num) {
     star = 2;
   };
   if (array.length === 16) {
-    alert(`恭喜过关共用${num}步，获得${star}颗星`)
+    timeOver()
+    alert(`恭喜过关共用${num}步，获得${star}颗星,${time}`);
   }
 };
 //纪录时间
@@ -101,15 +101,14 @@ let timeRecord = function(num) {
   timef = setTimeout(function(){timeRecord(num)},1000)
 }
 //暂停纪录时间
-let timeRestart = function(num) {
-  num = 0
-  $(".time").text(num);
+let timeOver = function() {
   clearTimeout(timef);
 }
 //暂停点击
 let disabledCard = function() {
   $(".deck").toggleClass("disabled")
 };
+
 let openCard = []; //暂时性的地方，最多存两个数
 let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
@@ -125,7 +124,7 @@ $(".restart").click(function() {
   moveNum = 0;
   $("span.moves").text(moveNum);
   $(".stars").find("li").children().attr("class", "fa fa-star");
-  timeRestart(timeNum);
+  timeOver();
   timeRecord(timeNum);
 });
 //点击翻牌
@@ -138,6 +137,6 @@ $("li").click(function(event) {
   setTimeout(function(){judgeCard(openCard,matchCard)}, 800); //setTimeout写法
   setTimeout(disabledCard,1200);
 
-  setTimeout(function(){lastNew(matchCard,moveNum)},2000);
+  setTimeout(function(){lastNew(matchCard,moveNum,timeNum)},2000);
 
 });
