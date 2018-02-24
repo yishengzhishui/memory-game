@@ -23,8 +23,6 @@ function shuffle(array) {
 
     return array;
 };
-
-
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
  *  - 显示卡片的符号（将这个功能放在你从这个函数中调用的另一个函数中）
@@ -100,7 +98,7 @@ let lastNew = function(array,num) {
 let timeRecord = function(num) {
   $(".time").text(num) ;
   num = num + 1;
-  timef = setTimeout(function(){timeRecord(num)},1000)
+  timef = setTimeout(function(){timeRecord(num)},1000);
 };
 //暂停纪录时间
 let timeOver = function() {
@@ -110,6 +108,7 @@ let timeOver = function() {
 let disabledCards = function() {
   $(".deck").toggleClass("disabled");
 };
+//单个卡片暂停点击
 let disabledCard = function() {
   $(event.target).addClass("disabled");
 }
@@ -147,5 +146,4 @@ $("li").click(function(event) {
   setTimeout(function(){judgeCard(openCard,matchCard)}, 800); //setTimeout写法
   setTimeout(disabledCards,1200);
   setTimeout(function(){lastNew(matchCard,moveNum,timeNum)},2000);
-
 });
