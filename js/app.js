@@ -24,19 +24,7 @@ function shuffle(array) {
 
     return array;
 };
-//布置新的卡片顺序
-function cardPosition(array) {
-  $(".match").removeClass("match");
-  $(".open.show").removeClass("open show");
-  for(let i = 0; i < array.length-1; i++) {
-    $(".deck").find("li").eq(i).children().attr("class", array[i])
- };
-};
-//重新开
-$(".restart").click(function() {
-  let newArray = shuffle(cardAll);
-  cardPosition(newArray);
-});
+
 
 /*
  * 设置一张卡片的事件监听器。 如果该卡片被点击：
@@ -50,15 +38,27 @@ $(".restart").click(function() {
  */
 
 //函数
+//布置新的卡片顺序
+function cardPosition(array) {
+  $(".match").removeClass("match");
+  $(".open.show").removeClass("open show");
+  for(let i = 0; i < array.length-1; i++) {
+    $(".deck").find("li").eq(i).children().attr("class", array[i])
+ };
+};
+//卡片打开
 let showCard = function() {
   $(event.target).addClass("open show")
 };
+//卡片关闭
 let closeCard = function() {
   $(".open.show").removeClass("open show");
 };
+//将卡片的class放入数组
 let pushArray = function(array) {
   array.push($(event.target).children().attr("class"));
 };
+//判断card是否相同
 let judgeCard = function(openArray,matchArray) {
   if (openArray.length === 2) {
     if (openArray[0] === openArray[1]) {
@@ -73,6 +73,7 @@ let judgeCard = function(openArray,matchArray) {
     };
   };
 };
+//点击次数和星星变化
 let starMoves = function(num) {
   $("span.moves").text(num);
   if (num > 20 && num <=30) {
@@ -81,6 +82,7 @@ let starMoves = function(num) {
     $(".stars").find("li").eq(1).children().attr("class", "fa fa-star-o")
   }
 };
+//闯关结束判断
 let lastNew = function(array,num) {
   let star = 1;
   if (num <= 20 ) {
@@ -92,12 +94,24 @@ let lastNew = function(array,num) {
     alert(`恭喜过关共用${num}步，获得${star}颗星`)
   }
 };
+//暂停点击
 let disabledCard = function() {
   $(".deck").toggleClass("disabled")
 };
 let openCard = []; //暂时性的地方，最多存两个数
 let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
+
+//restart重新开
+$(".restart").click(function() {
+  let newArray = shuffle(cardAll);
+  cardPosition(newArray);
+  openCard = []; //暂时性的地方，最多存两个数
+  matchCard = []; //匹配好的卡片放入
+  moveNum = 0;
+  $("span.moves").text(moveNum);
+  $(".stars").find("li").children().attr("class", "fa fa-star")
+});
 //点击翻牌
 $("li").click(function(event) {
   showCard();
