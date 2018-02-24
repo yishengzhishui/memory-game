@@ -82,7 +82,7 @@ let starMoves = function(num) {
   }
 };
 //闯关结束判断
-let lastNew = function(array,num,time) {
+let lastNew = function(array,num) {
   let star = 1;
   if (num <= 20 ) {
     star = 3;
@@ -90,23 +90,32 @@ let lastNew = function(array,num,time) {
     star = 2;
   };
   if (array.length === 16) {
-    timeOver()
-    alert(`恭喜过关共用${num}步，获得${star}颗星,${time}`);
+    timeOver();
+    atime = $(".time").text();
+    alert(`恭喜过关共用${num}步，获得${star}颗星,用时${atime}秒`);
   }
 };
-//纪录时间
+//开始纪录时间
 let timeRecord = function(num) {
   $(".time").text(num) ;
   num = num + 1;
   timef = setTimeout(function(){timeRecord(num)},1000)
-}
+};
 //暂停纪录时间
 let timeOver = function() {
   clearTimeout(timef);
-}
+};
 //暂停点击
 let disabledCard = function() {
   $(".deck").toggleClass("disabled")
+};
+//重启步数
+let moveRestart = function(num,openArray,matchArray) {
+  openArray.length = 0;
+  matchArray.length = 0;
+  moveNum = 0;
+  $("span.moves").text(moveNum);
+  $(".stars").find("li").children().attr("class", "fa fa-star");
 };
 
 let openCard = []; //暂时性的地方，最多存两个数
@@ -119,11 +128,7 @@ let timef; //为了提高性能
 $(".restart").click(function() {
   let newArray = shuffle(cardAll);
   cardPosition(newArray);
-  openCard = [];
-  matchCard = [];
-  moveNum = 0;
-  $("span.moves").text(moveNum);
-  $(".stars").find("li").children().attr("class", "fa fa-star");
+  moveRestart(moveNum,openCard,matchCard);
   timeOver();
   timeRecord(timeNum);
 });
@@ -136,7 +141,6 @@ $("li").click(function(event) {
   disabledCard();
   setTimeout(function(){judgeCard(openCard,matchCard)}, 800); //setTimeout写法
   setTimeout(disabledCard,1200);
-
   setTimeout(function(){lastNew(matchCard,moveNum,timeNum)},2000);
 
 });
