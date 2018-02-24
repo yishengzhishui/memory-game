@@ -94,6 +94,18 @@ let lastNew = function(array,num) {
     alert(`恭喜过关共用${num}步，获得${star}颗星`)
   }
 };
+//纪录时间
+let timeRecord = function(num) {
+  $(".time").text(num) ;
+  num = num + 1;
+  timef = setTimeout(function(){timeRecord(num)},1000)
+}
+//暂停纪录时间
+let timeRestart = function(num) {
+  num = 0
+  $(".time").text(num);
+  clearTimeout(timef);
+}
 //暂停点击
 let disabledCard = function() {
   $(".deck").toggleClass("disabled")
@@ -101,16 +113,20 @@ let disabledCard = function() {
 let openCard = []; //暂时性的地方，最多存两个数
 let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
+let timeNum = 0;
+let timef; //为了提高性能
 
 //restart重新开
 $(".restart").click(function() {
   let newArray = shuffle(cardAll);
   cardPosition(newArray);
-  openCard = []; //暂时性的地方，最多存两个数
-  matchCard = []; //匹配好的卡片放入
+  openCard = [];
+  matchCard = [];
   moveNum = 0;
   $("span.moves").text(moveNum);
-  $(".stars").find("li").children().attr("class", "fa fa-star")
+  $(".stars").find("li").children().attr("class", "fa fa-star");
+  timeRestart(timeNum);
+  timeRecord(timeNum);
 });
 //点击翻牌
 $("li").click(function(event) {
