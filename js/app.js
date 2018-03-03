@@ -101,9 +101,20 @@ let lastNew = function(array, num) {
     alert(`恭喜过关共用${num}步，获得${star}颗星,用时${atime}秒，再玩一次？`);
   }
 };
-//开始纪录时间
-let timeRecord = function(num) {
+//开始纪录
+let timeCount = function(move, time) {
+  if (move === 0) {
+    timeRecord(time);
+  };
+};
+//显示时间
+let timeDisplay = function(num) {
   $(".time").text(num);
+}
+
+//纪录时间
+let timeRecord = function(num) {
+  timeDisplay(num)
   num++;
   timef = setTimeout(function() {
     timeRecord(num)
@@ -142,13 +153,11 @@ $(".restart").click(function() {
   cardPosition(newArray);
   moveRestart(moveNum, openCard, matchCard);
   timeOver();
-  $(".time").text(moveNum);
+  timeDisplay(timeNum);
 });
 //点击翻牌
 $("li").click(function(event) {
-  if (moveNum === 0) {
-    timeRecord(timeNum);
-  };
+  timeCount(moveNum, timeNum);
   showCard();
   pushArray(openCard);
   disabledCard(); //这样写没有问题吗？
