@@ -142,10 +142,13 @@ $(".restart").click(function() {
   cardPosition(newArray);
   moveRestart(moveNum, openCard, matchCard);
   timeOver();
-  timeRecord(timeNum);
+  $(".time").text(moveNum);
 });
 //点击翻牌
 $("li").click(function(event) {
+  if (moveNum === 0) {
+    timeRecord(timeNum);
+  };
   showCard();
   pushArray(openCard);
   disabledCard(); //这样写没有问题吗？
