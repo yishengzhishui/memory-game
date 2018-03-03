@@ -57,6 +57,14 @@ let pushArray = function(array) {
   array.push($(event.target).children().attr("class"));
 };
 //判断card是否相同
+let newjudgeCard = function(openArray, matchArray) {
+  if (openArray.length === 2) {
+    disabledCards();
+    setTimeout(function() {
+      judgeCard(openArray, matchArray)
+    }, 1200);; //setTimeout写法s
+  };
+}
 let judgeCard = function(openArray, matchArray) {
   if (openArray[0] === openArray[1]) {
     $(".open.show").addClass("match");
@@ -65,8 +73,10 @@ let judgeCard = function(openArray, matchArray) {
     matchArray.push(openArray[1]);
   } else {
     $(".open.show").removeClass("disabled"); //解除不准点击的锁定
-    setTimeout(closeCard, 1000);
+    closeCard();
   };
+  openCard.length = 0;
+  disabledCards();
 };
 //点击次数和星星变化
 let starMoves = function(num) {
@@ -141,13 +151,7 @@ $("li").click(function(event) {
   disabledCard(); //这样写没有问题吗？
   moveNum++;
   starMoves(moveNum);
-  if (openCard.length === 2) {
-    disabledCards();
-    judgeCard(openCard, matchCard); //setTimeout写法s
-    openCard.length = 0;
-  };
-
-
+  newjudgeCard(openCard, matchCard);
   setTimeout(function() {
     lastNew(matchCard, moveNum, timeNum)
   }, 2000);
