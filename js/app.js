@@ -98,7 +98,14 @@ let lastNew = function(array, num) {
   if (array.length === 16) {
     timeOver();
     atime = $(".time").text();
-    alert(`恭喜过关共用${num}步，获得${star}颗星,用时${atime}秒，再玩一次？`);
+    if (confirm(`恭喜过关共用${num}步，获得${star}颗星,用时${atime}秒`) == true) {
+      let newArray = shuffle(cardAll);
+      cardPosition(newArray);
+      moveRestart(moveNum, openCard, matchCard);
+      timeOver();
+      timeDisplay(timeNum);
+      clickAllowed();
+    };
   };
 };
 //开始纪录
