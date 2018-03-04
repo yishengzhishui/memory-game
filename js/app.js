@@ -20,7 +20,7 @@ function shuffle(array) {
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
-  }
+  };
 
   return array;
 };
@@ -46,7 +46,7 @@ function cardPosition(array) {
 };
 //卡片打开
 let showCard = function() {
-  $(event.target).addClass("open show")
+  $(event.target).addClass("open show");
 };
 //卡片关闭
 let closeCard = function() {
@@ -62,9 +62,9 @@ let newjudgeCard = function(openArray, matchArray) {
     disabledCards();
     setTimeout(function() {
       judgeCard(openArray, matchArray)
-    }, 1200);; //setTimeout写法s
+    }, 1200); //setTimeout写法s
   };
-}
+};
 let judgeCard = function(openArray, matchArray) {
   if (openArray[0] === openArray[1]) {
     $(".open.show").addClass("match");
@@ -82,10 +82,10 @@ let judgeCard = function(openArray, matchArray) {
 let starMoves = function(num) {
   $("span.moves").text(num);
   if (num > 20 && num <= 30) {
-    $(".stars").find("li").eq(2).children().attr("class", "fa fa-star-o")
+    $(".stars").find("li").eq(2).children().attr("class", "fa fa-star-o");
   } else if (num > 30) {
-    $(".stars").find("li").eq(1).children().attr("class", "fa fa-star-o")
-  }
+    $(".stars").find("li").eq(1).children().attr("class", "fa fa-star-o");
+  };
 };
 //闯关结束判断
 let lastNew = function(array, num) {
@@ -99,7 +99,7 @@ let lastNew = function(array, num) {
     timeOver();
     atime = $(".time").text();
     alert(`恭喜过关共用${num}步，获得${star}颗星,用时${atime}秒，再玩一次？`);
-  }
+  };
 };
 //开始纪录
 let timeCount = function(move, time) {
@@ -110,11 +110,11 @@ let timeCount = function(move, time) {
 //显示时间
 let timeDisplay = function(num) {
   $(".time").text(num);
-}
+};
 
 //纪录时间
 let timeRecord = function(num) {
-  timeDisplay(num)
+  timeDisplay(num);
   num++;
   timef = setTimeout(function() {
     timeRecord(num)
@@ -128,10 +128,14 @@ let timeOver = function() {
 let disabledCards = function() {
   $(".deck").toggleClass("disabled");
 };
+//去除所有的禁止点击
+let clickAllowed = function() {
+  $("li").removeClass("disabled");
+};
 //单个卡片暂停点击
 let disabledCard = function() {
   $(event.target).addClass("disabled");
-}
+};
 //重启步数
 let moveRestart = function(num, openArray, matchArray) {
   openArray.length = 0;
@@ -140,7 +144,7 @@ let moveRestart = function(num, openArray, matchArray) {
   $("span.moves").text(moveNum);
   $(".stars").find("li").children().attr("class", "fa fa-star");
 };
-
+//设定参数
 let openCard = []; //暂时性的地方，最多存两个数
 let matchCard = []; //匹配好的卡片放入
 let moveNum = 0;
@@ -154,6 +158,7 @@ $(".restart").click(function() {
   moveRestart(moveNum, openCard, matchCard);
   timeOver();
   timeDisplay(timeNum);
+  clickAllowed();
 });
 //点击翻牌
 $("li").click(function(event) {
@@ -165,6 +170,6 @@ $("li").click(function(event) {
   starMoves(moveNum);
   newjudgeCard(openCard, matchCard);
   setTimeout(function() {
-    lastNew(matchCard, moveNum, timeNum)
+    lastNew(matchCard, moveNum, timeNum);
   }, 2000);
 });
